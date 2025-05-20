@@ -7,104 +7,266 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4cc9f0;
+            --light-bg: #f8f9fa;
+            --dark-text: #212529;
+            --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --transition-speed: 0.3s;
+        }
+        
         body {
-            background-image: url('https://i.imgur.com/wJyfIJ7.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .container {
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-        .sidebar {
-            background-color: #f8f9fa;
+        
+        .main-container {
+            padding: 0;
             min-height: 100vh;
-            padding: 20px;
-            position: sticky;
-            top: 0;
+            display: flex;
         }
+        
+        /* Sidebar */
+        .sidebar {
+            background-color: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            padding: 1.5rem 1rem;
+            transition: all var(--transition-speed);
+            z-index: 100;
+        }
+        
+        @media (max-width: 991.98px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                height: 100vh;
+                width: 250px;
+                transition: all 0.3s;
+            }
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .content-wrapper {
+                width: 100%;
+            }
+        }
+        
+        .logo-container {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
         .logo {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            margin-bottom: 20px;
             object-fit: cover;
+            box-shadow: var(--card-shadow);
+            border: 3px solid var(--accent-color);
+            padding: 3px;
         }
+        
+        .store-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 0.75rem;
+            color: var(--primary-color);
+        }
+        
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
         .nav-link {
-            color: #333;
-            font-size: 18px;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 10px;
             display: flex;
             align-items: center;
+            padding: 0.75rem 1rem;
+            color: var(--dark-text);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            transition: all var(--transition-speed);
+            text-decoration: none;
         }
+        
         .nav-link i {
-            margin-right: 10px;
-            width: 20px;
+            margin-right: 1rem;
+            font-size: 1.25rem;
+            width: 1.5rem;
+            text-align: center;
+            color: var(--primary-color);
         }
-        .nav-link.active, .nav-link:hover {
-            background-color: #e9ecef;
+        
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary-color);
         }
-        .page {
-            display: none;
+        
+        .nav-link.active {
+            font-weight: 600;
         }
-        .page.active {
-            display: block;
+        
+        /* Content */
+        .content-wrapper {
+            flex-grow: 1;
+            padding: 1rem;
         }
-        .product-card {
-            border-radius: 10px;
+        
+        .content-container {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .header {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .store-desc {
+            text-align: center;
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+        
+        /* Products */
+        .search-bar {
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-bar .input-group {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-radius: 8px;
             overflow: hidden;
-            margin-bottom: 20px;
-            background-color: #f8f9fa;
-            transition: transform 0.3s;
         }
+        
+        .search-bar .form-control {
+            border: none;
+            padding: 0.75rem 1rem;
+        }
+        
+        .search-bar .form-control:focus {
+            box-shadow: none;
+        }
+        
+        .search-bar .btn {
+            padding: 0.75rem 1.25rem;
+        }
+        
+        .product-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            padding: 1rem;
+            margin-bottom: 1.25rem;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+        
         .product-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
         }
+        
         .product-img {
             width: 100px;
             height: 100px;
             object-fit: contain;
+            border-radius: 8px;
         }
+        
         .price {
-            font-size: 24px;
-            font-weight: bold;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
         }
-        .header {
-            font-size: 36px;
-            font-weight: bold;
+        
+        .product-info {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-bottom: 0.25rem;
+        }
+        
+        /* Dashboard */
+        .stats-container {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            color: white;
             text-align: center;
-            margin-bottom: 30px;
         }
-        .search-bar {
-            margin-bottom: 20px;
-        }
-        #qr-reader {
-            width: 100%;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-        .store-name {
-            font-size: 24px;
-            font-weight: bold;
-            text-align: center;
-            margin-top: 10px;
-        }
-        .store-desc {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+        
         .total-products {
-            font-size: 72px;
-            font-weight: bold;
-            text-align: center;
-            margin: 30px 0;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 1rem 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
+        
+        /* Forms */
+        .form-label {
+            font-weight: 600;
+            color: var(--dark-text);
+        }
+        
+        .form-control, .form-select {
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .btn-success {
+            background-color: #38b000;
+            border-color: #38b000;
+        }
+        
+        .btn-success:hover {
+            background-color: #2d9200;
+            border-color: #2d9200;
+        }
+        
+        /* Image upload */
+        .upload-preview {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        
+        #image-preview {
+            max-width: 100%;
+            height: auto;
+            max-height: 200px;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        /* Loading */
         #loading {
             position: fixed;
             top: 0;
@@ -115,39 +277,106 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            z-index: 1050;
+            backdrop-filter: blur(5px);
         }
-        .upload-btn-wrapper {
-            position: relative;
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(67, 97, 238, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Mobile menu toggle */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.25rem;
+            z-index: 101;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        @media (max-width: 991.98px) {
+            .menu-toggle {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .sidebar-backdrop {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0,0,0,0.5);
+                z-index: 99;
+            }
+            
+            .sidebar-backdrop.active {
+                display: block;
+            }
+        }
+        
+        /* QR scanner */
+        .qr-reader-container {
+            background-color: white;
+            border-radius: 12px;
             overflow: hidden;
-            display: inline-block;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
         }
-        .upload-btn-wrapper input[type=file] {
-            position: absolute;
-            left: 0;
-            top: 0;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
+        
+        /* Modal */
+        .modal-content {
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .modal-header {
+            background-color: var(--primary-color);
+            color: white;
+            border-bottom: none;
+        }
+        
+        .modal-footer {
+            border-top: none;
         }
     </style>
 </head>
 <body>
     <div id="loading">
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
+        <div class="spinner"></div>
     </div>
 
     <!-- API Setup Modal -->
     <div class="modal fade" id="apiSetupModal" tabindex="-1" aria-labelledby="apiSetupModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="apiSetupModalLabel">Setup API Access</h5>
                 </div>
                 <div class="modal-body">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        This application is using GitHub repository secrets for API keys. If you're seeing this message, the API key hasn't been provided.
+                    </div>
                     <p>Please enter your Pantry API ID to continue:</p>
                     <input type="text" id="pantryIdInput" class="form-control" placeholder="Your Pantry ID">
                     <small class="text-muted">You can get this from your Pantry account at getpantry.cloud</small>
@@ -159,142 +388,151 @@
         </div>
     </div>
 
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <div class="col-md-3 col-lg-2 d-md-block sidebar collapse">
-                <div class="text-center">
-                    <img src="https://i.imgur.com/SxeWP0b.png" alt="Logo" class="logo">
-                    <div class="store-name">CJ</div>
-                </div>
-                <hr>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#" data-page="home">
-                            <i class="fas fa-home"></i> Home
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-page="products">
-                            <i class="fas fa-box"></i> Products
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-page="add">
-                            <i class="fas fa-plus"></i> Add
-                        </a>
-                    </li>
-                </ul>
-            </div>
+    <!-- Mobile Menu Toggle -->
+    <button type="button" class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
-            <!-- Main Content -->
-            <div class="col-md-9 col-lg-10 ms-sm-auto px-md-4">
-                <!-- Home Page -->
-                <div class="page active" id="home">
-                    <div class="container">
-                        <h1 class="header">CLAYTON SARI SARI STORE</h1>
-                        <h2 class="store-desc">BASIC INVENTORY SYSTEM</h2>
-                        <p class="text-center">For monitoring the prices of products that available in Clayton Sari-Sari Store</p>
-                        
-                        <div class="container">
-                            <h2 class="text-center mb-4">TOTAL PRODUCTS</h2>
-                            <div class="total-products" id="total-products">0</div>
-                        </div>
+    <div class="container-fluid main-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="logo-container">
+                <img src="https://i.imgur.com/SxeWP0b.png" alt="Logo" class="logo">
+                <div class="store-name">CJ</div>
+            </div>
+            <hr>
+            <ul class="nav-menu">
+                <li>
+                    <a class="nav-link active" href="#" data-page="home">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link" href="#" data-page="products">
+                        <i class="fas fa-box"></i> Products
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link" href="#" data-page="add">
+                        <i class="fas fa-plus"></i> Add
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content-wrapper">
+            <!-- Home Page -->
+            <div class="page active" id="home">
+                <div class="content-container">
+                    <h1 class="header">CLAYTON SARI SARI STORE</h1>
+                    <h2 class="store-desc">BASIC INVENTORY SYSTEM</h2>
+                    <p class="text-center mb-4">For monitoring the prices of products available in Clayton Sari-Sari Store</p>
+                    
+                    <div class="stats-container">
+                        <h2 class="text-white mb-3">TOTAL PRODUCTS</h2>
+                        <div class="total-products" id="total-products">0</div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Products Page -->
-                <div class="page" id="products">
-                    <div class="container">
-                        <h1 class="header">PRODUCTS</h1>
+            <!-- Products Page -->
+            <div class="page" id="products">
+                <div class="content-container">
+                    <h1 class="header">PRODUCTS</h1>
+                    
+                    <div class="search-bar">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="search-input" placeholder="Search products...">
+                            <button class="btn btn-primary" id="search-btn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                            <button class="btn btn-secondary" id="scan-search-btn">
+                                <i class="fas fa-qrcode"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="qr-reader-search" class="qr-reader-container" style="display: none;"></div>
+                    
+                    <div class="row" id="products-container">
+                        <!-- Products will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Product Page -->
+            <div class="page" id="add">
+                <div class="content-container">
+                    <h1 class="header">ADD PRODUCTS</h1>
+                    
+                    <form id="add-product-form">
+                        <div class="mb-3">
+                            <label for="product-name" class="form-label">NAME</label>
+                            <input type="text" class="form-control" id="product-name" required>
+                        </div>
                         
-                        <div class="search-bar">
+                        <div class="mb-3">
+                            <label for="product-price" class="form-label">PRICE</label>
+                            <input type="number" class="form-control" id="product-price" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="product-quantity" class="form-label">QUANTITY</label>
+                            <input type="text" class="form-control" id="product-quantity" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="product-code" class="form-label">CODE</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="search-input" placeholder="Search products...">
-                                <button class="btn btn-primary" id="search-btn">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                                <button class="btn btn-secondary" id="scan-search-btn">
+                                <input type="text" class="form-control" id="product-code" required>
+                                <button class="btn btn-secondary" type="button" id="scan-code-btn">
                                     <i class="fas fa-qrcode"></i>
                                 </button>
                             </div>
                         </div>
                         
-                        <div id="qr-reader-search" style="display: none;"></div>
+                        <div id="qr-reader-add" class="qr-reader-container" style="display: none;"></div>
                         
-                        <div class="row" id="products-container">
-                            <!-- Products will be loaded here -->
+                        <div class="mb-3">
+                            <label for="product-category" class="form-label">CATEGORY</label>
+                            <select class="form-select" id="product-category" required>
+                                <option value="" selected disabled>CHOOSE</option>
+                                <option value="Drinks">Drinks</option>
+                                <option value="Food">Food</option>
+                                <option value="Snacks">Snacks</option>
+                                <option value="Personal Care">Personal Care</option>
+                                <option value="Household">Household</option>
+                                <option value="Others">Others</option>
+                            </select>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Add Product Page -->
-                <div class="page" id="add">
-                    <div class="container">
-                        <h1 class="header">ADD PRODUCTS</h1>
                         
-                        <form id="add-product-form">
-                            <div class="mb-3">
-                                <label for="product-name" class="form-label">NAME</label>
-                                <input type="text" class="form-control" id="product-name" required>
+                        <div class="mb-3">
+                            <label for="product-image" class="form-label">IMAGE</label>
+                            <div class="d-grid">
+                                <label for="product-image" class="btn btn-outline-secondary">
+                                    <i class="fas fa-upload me-2"></i> UPLOAD IMAGE
+                                </label>
+                                <input type="file" id="product-image" accept="image/*" class="d-none">
                             </div>
-                            
-                            <div class="mb-3">
-                                <label for="product-price" class="form-label">PRICE</label>
-                                <input type="number" class="form-control" id="product-price" required>
+                            <div class="upload-preview">
+                                <img id="image-preview" src="https://i.imgur.com/dLwTp28.png" alt="Upload Image">
                             </div>
-                            
-                            <div class="mb-3">
-                                <label for="product-quantity" class="form-label">QUANTITY</label>
-                                <input type="text" class="form-control" id="product-quantity" required>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label for="product-code" class="form-label">CODE</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="product-code" required>
-                                    <button class="btn btn-secondary" type="button" id="scan-code-btn">
-                                        <i class="fas fa-qrcode"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <div id="qr-reader-add" style="display: none;"></div>
-                            
-                            <div class="mb-3">
-                                <label for="product-category" class="form-label">CATEGORY</label>
-                                <select class="form-select" id="product-category" required>
-                                    <option value="" selected disabled>CHOOSE</option>
-                                    <option value="Drinks">Drinks</option>
-                                    <option value="Food">Food</option>
-                                    <option value="Snacks">Snacks</option>
-                                    <option value="Personal Care">Personal Care</option>
-                                    <option value="Household">Household</option>
-                                    <option value="Others">Others</option>
-                                </select>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label for="product-image" class="form-label">IMAGE</label>
-                                <div class="upload-btn-wrapper">
-                                    <button class="btn btn-secondary w-100" type="button">
-                                        UPLOAD IMAGE
-                                    </button>
-                                    <input type="file" id="product-image" accept="image/*">
-                                </div>
-                                <div class="mt-2 text-center">
-                                    <img id="image-preview" src="https://i.imgur.com/dLwTp28.png" alt="Upload Image" style="max-width: 200px; max-height: 200px;">
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label for="popular-name" class="form-label">POPULAR NAME (Optional)</label>
-                                <input type="text" class="form-control" id="popular-name">
-                            </div>
-                            
-                            <button type="submit" class="btn btn-success w-100 py-3">SAVE</button>
-                        </form>
-                    </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="popular-name" class="form-label">POPULAR NAME (Optional)</label>
+                            <input type="text" class="form-control" id="popular-name">
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success py-3">
+                                <i class="fas fa-save me-2"></i> SAVE
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

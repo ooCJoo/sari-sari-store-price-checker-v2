@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Inventory Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+       body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8fafc;
+        color: #334155;
+        line-height: 1.6;
+    }
+
+    .container {
+        display: flex;
+        min-height: 100vh;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar {
+        width: 250px;
+        background-color: #1e293b;
+        padding: 2rem 0;
+        position: fixed;
+        height: 100vh;
+        left: 0;
+        top: 0;
+    }
+
+    .nav-menu {
+        list-style: none;
+        padding: 0 1rem;
+    }
+
+    .nav-item {
+        margin-bottom: 0.5rem;
+    }
+
+    .nav-link {
+        display: block;
+        padding: 1rem 1.5rem;
+        color: #cbd5e1;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+    }
+
+    .nav-link:hover {
+        background-color: #334155;
+        color: #ffffff;
+        transform: translateX(5px);
+    }
+
+    .nav-link.active {
+        background-color: #3b82f6;
+        color: #ffffff;
+    }
+
+    /* Settings Button */
+    .settings-btn {
+        position: absolute;
+        bottom: 2rem;
+        left: 1rem;
+        right: 1rem;
+        background: #374151;
+        color: #cbd5e1;
+        border: none;
+        padding: 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .settings-btn:hover {
+        background: #4b5563;
+        color: white;
+    }
+
+    /* Main Content */
+    .main-content {
+        flex: 1;
+        margin-left: 250px;
+        padding: 2rem;
+    }
+
+    .page-header {
+        margin-bottom: 2rem;
+    }
+
+    .page-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 0.5rem;
+    }
+
+    .page-subtitle {
+        font-size: 1.1rem;
+        color: #64748b;
+    }
+
+    /* Welcome Section */
+    .welcome-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 3rem 2rem;
+        border-radius: 16px;
+        margin-bottom: 2rem;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .welcome-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .welcome-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        margin-bottom: 2rem;
+    }
+
+    .welcome-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .welcome-stat {
+        text-align: center;
+    }
+
+    .welcome-stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .welcome-stat-label {
+        font-size: 1rem;
+        opacity: 0.8;
+    }
+
+    /* Section Styling */
+    .section {
+        margin-bottom: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    /* Recent Activity */
+    .recent-activity {
+        background: white;
+        padding: 2rem;
+        border-radius: 16px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        margin-bottom: 2rem;
+    }
+
+    .activity-list {
+        list-style: none;
+    }
+
+    .activity-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem 0;
+        border-bottom: 1px solid #e2e8f0;
+        transition: background-color 0.3s ease;
+    }
+
+    .activity-item:last-child {
+        border-bottom: none;
+    }
+
+    .activity-item:hover {
+        background-color: #f8fafc;
+        border-radius: 8px;
+        margin: 0 -1rem;
+        padding: 1rem;
+    }
+
+    .activity-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        font-size: 1.2rem;
+    }
+
+    .activity-icon.add {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+    }
+
+    .activity-icon.edit {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        color: white;
+    }
+
+    .activity-icon.delete {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        color: white;
+    }
+
+    .activity-content {
+        flex: 1;
+    }
+
+    .activity-title {
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 0.25rem;
+    }
+
+    .activity-description {
+        color: #64748b;
+        font-size: 0.9rem;
+    }
+
+    .activity-time {
+        color: #9ca3af;
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+
+    /* Quick Actions */
+    .quick-actions {
+        margin-bottom: 2rem;
+    }
+
+    .actions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .action-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 16px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    .action-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        border-color: #3b82f6;
+    }
+
+    .action-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        display: block;
+    }
+
+    .action-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 0.5rem;
+    }
+
+    .action-description {
+        color: #64748b;
+        font-size: 0.95rem;
+    }
+
+    /* Category Statistics */
+    .category-stats {
+        margin-bottom: 2rem;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .stat-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        border-left: 4px solid #3b82f6;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .stat-card.drinks {
+        border-left-color: #06b6d4;
+    }
+
+    .stat-card.food {
+        border-left-color: #10b981;
+    }
+
+    .stat-card.snacks {
+        border-left-color: #f59e0b;
+    }
+
+    .stat-card.personal-care {
+        border-left-color: #8b5cf6;
+    }
+
+    .stat-card.household {
+        border-left-color: #ef4444;
+    }
+
+    .stat-card.others {
+        border-left-color: #6b7280;
+    }
+
+    .stat-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-title {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .stat-icon {
+        font-size: 1.5rem;
+    }
+
+    .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #1e293b;
+    }
+
+    .stat-change {
+        font-size: 0.85rem;
+        color: #10b981;
+        font-weight: 500;
+    }
+
+    /* Loading State */
+    .loading-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+        grid-column: 1 / -1;
+    }
+
+    .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid #f3f4f6;
+        border-top: 4px solid #3b82f6;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 1rem;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* Mobile Toggle Button */
+    .mobile-toggle {
+        display: none;
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 1001;
+        background-color: #1e293b;
+        color: white;
+        border: none;
+        padding: 0.75rem;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .mobile-toggle:hover {
+        background-color: #334155;
+        transform: scale(1.05);
+    }
+
+    .sidebar.mobile-open {
+        transform: translateX(0);
+    }
+
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+    }
+
+    .overlay.active {
+        display: block;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .sidebar {
+            width: 200px;
+        }
+
+        .main-content {
+            margin-left: 200px;
+            padding: 1.5rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+        }
+
+        .welcome-title {
+            font-size: 2rem;
+        }
+
+        .welcome-stats {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .actions-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 640px) {
+        .mobile-toggle {
+            display: block;
+        }
+
+        .sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .main-content {
+            margin-left: 0;
+            padding: 1rem;
+            padding-top: 4rem;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+        }
+
+        .welcome-title {
+            font-size: 1.8rem;
+        }
+
+        .welcome-stats {
+            grid-template-columns: 1fr;
+        }
+
+        .actions-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+    <!-- Overlay for mobile -->
+    <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="#" class="nav-link active" onclick="setActive(this)">HOME</a>
+            </li>
+            <li class="nav-item">
+                <a href="product.html" class="nav-link" onclick="setActive(this)">PRODUCT</a>
+            </li>
+            <li class="nav-item">
+                <a href="add.html" class="nav-link" onclick="setActive(this)">ADD</a>
+            </li>
+        </ul>
+        <button class="settings-btn" onclick="showSettings()">⚙️ Settings</button>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="page-header">
+            <h1 class="page-title">Dashboard</h1>
+            <p class="page-subtitle">Welcome to your inventory management system</p>
+        </header>
+
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+            <h2 class="welcome-title">🏠 Welcome Back!</h2>
+            <p class="welcome-subtitle">Here's an overview of your inventory status</p>
+            <div class="welcome-stats">
+                <div class="welcome-stat">
+                    <div class="welcome-stat-number" id="totalProducts">0</div>
+                    <div class="welcome-stat-label">Total Products</div>
+                </div>
+                <div class="welcome-stat">
+                    <div class="welcome-stat-number" id="totalCategories">6</div>
+                    <div class="welcome-stat-label">Categories</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="recent-activity section">
+            <h2 class="section-title">📈 Recent Activity</h2>
+            <ul class="activity-list" id="activityList">
+                <li class="activity-item">
+                    <div class="activity-icon add">➕</div>
+                    <div class="activity-content">
+                        <div class="activity-title">Product Added</div>
+                        <div class="activity-description">Coca Cola was added to inventory</div>
+                    </div>
+                    <div class="activity-time">2 hours ago</div>
+                </li>
+                <li class="activity-item">
+                    <div class="activity-icon edit">✏️</div>
+                    <div class="activity-content">
+                        <div class="activity-title">Stock Updated</div>
+                        <div class="activity-description">Bread quantity updated to 12 pieces</div>
+                    </div>
+                    <div class="activity-time">5 hours ago</div>
+                </li>
+                <li class="activity-item">
+                    <div class="activity-icon add">➕</div>
+                    <div class="activity-content">
+                        <div class="activity-title">New Category</div>
+                        <div class="activity-description">Personal Care category created</div>
+                    </div>
+                    <div class="activity-time">1 day ago</div>
+                </li>
+                <li class="activity-item">
+                    <div class="activity-icon delete">🗑️</div>
+                    <div class="activity-content">
+                        <div class="activity-title">Product Removed</div>
+                        <div class="activity-description">Expired milk removed from inventory</div>
+                    </div>
+                    <div class="activity-time">2 days ago</div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <h2 class="section-title">⚡ Quick Actions</h2>
+            <div class="actions-grid">
+                <div class="action-card" onclick="navigateToAdd()">
+                    <div class="action-icon">➕</div>
+                    <h3 class="action-title">Add Product</h3>
+                    <p class="action-description">Add new items to your inventory</p>
+                </div>
+                <div class="action-card" onclick="navigateToProducts()">
+                    <div class="action-icon">📦</div>
+                    <h3 class="action-title">View Products</h3>
+                    <p class="action-description">Browse and manage your products</p>
+                </div>
+                <div class="action-card" onclick="generateReport()">
+                    <div class="action-icon">📊</div>
+                    <h3 class="action-title">Generate Report</h3>
+                    <p class="action-description">Create inventory reports</p>
+                </div>
+                <div class="action-card" onclick="scanBarcode()">
+                    <div class="action-icon">📷</div>
+                    <h3 class="action-title">Scan Barcode</h3>
+                    <p class="action-description">Quick product lookup</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category Statistics -->
+        <div class="category-stats">
+            <h2 class="section-title">📊 Category Overview</h2>
+            <div class="stats-grid" id="categoryStatsGrid">
+                <!-- Loading state -->
+                <div class="loading-container">
+                    <div class="loading-spinner"></div>
+                    <p>Loading category statistics...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Include Centralized Pantry API -->
+<script src="pantry-api.js"></script>
+<script>
+    // Global variables
+    let allProducts = [];
+
+    // Navigation functionality
+    function setActive(clickedLink) {
+        const allLinks = document.querySelectorAll('.nav-link');
+        allLinks.forEach(link => link.classList.remove('active'));
+        clickedLink.classList.add('active');
+        
+        if (window.innerWidth <= 640) {
+            closeSidebar();
+        }
+    }
+
+    // Mobile sidebar toggle functionality
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        
+        sidebar.classList.toggle('mobile-open');
+        overlay.classList.toggle('active');
+    }
+
+    function closeSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        
+        sidebar.classList.remove('mobile-open');
+        overlay.classList.remove('active');
+    }
+
+    // Settings functionality
+    function showSettings() {
+        const options = [
+            'Change API Key',
+            'Reset Database Connection',
+            'Manage Categories',
+            'Export Data',
+            'Cancel'
+        ];
+        
+        const choice = prompt(`Settings:\n1. ${options[0]}\n2. ${options[1]}\n3. ${options[2]}\n4. ${options[3]}\n5. ${options[4]}\n\nEnter your choice (1-5):`);
+        
+        switch(choice) {
+            case '1':
+                pantryAPI.resetAPIKey();
+                break;
+            case '2':
+                if (confirm('This will reset your database connection. Continue?')) {
+                    pantryAPI.resetAPIKey();
+                }
+                break;
+            case '3':
+                manageCategories();
+                break;
+            case '4':
+                exportData();
+                break;
+            default:
+                break;
+        }
+    }
+
+    // Category management
+    async function manageCategories() {
+        try {
+            const categories = await pantryAPI.getCategories();
+            const categoryNames = categories.map(cat => cat.name).join('\n');
+            
+            const newCategory = prompt(`Current Categories:\n${categoryNames}\n\nEnter new category name:`);
+            
+            if (newCategory && newCategory.trim()) {
+                const categoryId = newCategory.toLowerCase().replace(/\s+/g, '-');
+                const newCategoryObj = {
+                    id: categoryId,
+                    name: newCategory.trim(),
+                    icon: '📋'
+                };
+                
+                categories.push(newCategoryObj);
+                await pantryAPI.saveCategories(categories);
+                pantryAPI.showSuccess(`Category "${newCategory}" added successfully!`);
+                
+                // Reload dashboard data
+                loadDashboardData();
+            }
+        } catch (error) {
+            console.error('Error managing categories:', error);
+            pantryAPI.showError('Failed to manage categories');
+        }
+    }
+
+    // Export data functionality
+    function exportData() {
+        const dataStr = JSON.stringify(allProducts, null, 2);
+        const dataBlob = new Blob([dataStr], {type: 'application/json'});
+        const url = URL.createObjectURL(dataBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'inventory-data.json';
+        link.click();
+        pantryAPI.showSuccess('Data exported successfully!');
+    }
+
+    // Load dashboard data
+    async function loadDashboardData() {
+        try {
+            console.log('Loading dashboard data...');
+            allProducts = await pantryAPI.getProducts();
+            
+            console.log(`Loaded ${allProducts.length} products`);
+            
+            updateWelcomeStats();
+            renderCategoryStats();
+            
+        } catch (error) {
+            console.error('Error loading dashboard data:', error);
+            pantryAPI.showError('Failed to load dashboard data');
+        }
+    }
+
+    // Update welcome section statistics
+    function updateWelcomeStats() {
+        const totalProducts = allProducts.length;
+        document.getElementById('totalProducts').textContent = totalProducts;
+    }
+
+    // Render category statistics
+    async function renderCategoryStats() {
+        const categoryStatsGrid = document.getElementById('categoryStatsGrid');
+        
+        try {
+            const categories = await pantryAPI.getCategories();
+            const totalProducts = allProducts.length;
+            const categoryStats = {};
+            
+            categories.forEach(category => {
+                categoryStats[category.name] = allProducts.filter(product => product.category === category.name).length;
+            });
+
+            // Generate stats HTML
+            let statsHTML = `
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-title">Total Products</span>
+                        <span class="stat-icon">📦</span>
+                    </div>
+                    <div class="stat-value">${totalProducts}</div>
+                    <div class="stat-change">+${Math.floor(Math.random() * 5) + 1} this week</div>
+                </div>
+            `;
+
+            categories.forEach(category => {
+                const count = categoryStats[category.name] || 0;
+                const className = category.id;
+                
+                statsHTML += `
+                    <div class="stat-card ${className}">
+                        <div class="stat-header">
+                            <span class="stat-title">${category.name}</span>
+                            <span class="stat-icon">${category.icon}</span>
+                        </div>
+                        <div class="stat-value">${count}</div>
+                        <div class="stat-change">${count > 0 ? 'In stock' : 'Empty'}</div>
+                    </div>
+                `;
+            });
+
+            categoryStatsGrid.innerHTML = statsHTML;
+        } catch (error) {
+            console.error('Error rendering category stats:', error);
+            categoryStatsGrid.innerHTML = '<p>Error loading category statistics</p>';
+        }
+    }
+
+    // Quick action functions
+    function navigateToAdd() {
+        pantryAPI.showInfo('Redirecting to Add Product page...');
+        console.log('Navigate to add product page');
+    }
+
+    function navigateToProducts() {
+        pantryAPI.showInfo('Redirecting to Products page...');
+        console.log('Navigate to products page');
+    }
+
+    function generateReport() {
+        pantryAPI.showInfo('Generating inventory report...');
+        console.log('Generate report');
+        
+        // Simulate report generation
+        setTimeout(() => {
+            pantryAPI.showSuccess('Report generated successfully!');
+        }, 2000);
+    }
+
+    async function scanBarcode() {
+        try {
+            const barcode = await pantryAPI.scanBarcode();
+            pantryAPI.showSuccess(`Barcode scanned: ${barcode}`);
+            
+            // Search for product with this barcode
+            const product = allProducts.find(p => p.barcode === barcode);
+            if (product) {
+                pantryAPI.showInfo(`Found product: ${product.name}`);
+            } else {
+                pantryAPI.showWarning('Product not found in inventory');
+            }
+        } catch (error) {
+            console.log('Barcode scan cancelled or failed');
+        }
+    }
+
+    // Initialize the dashboard
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Dashboard loaded');
+        
+        // Load dashboard data after a short delay to show loading state
+        setTimeout(() => {
+            loadDashboardData();
+        }, 1000);
+    });
+</script>
+</body>
+</html>
